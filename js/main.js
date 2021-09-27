@@ -12,10 +12,7 @@ function getRandomInt(min, max) {
 }
 
 function checkCommentLength(comment, commentLength) {
-  if (comment.length <= commentLength) {
-    return true;
-  }
-  return false;
+  return comment.length < commentLength;
 }
 
 getRandomInt(0, -432);
