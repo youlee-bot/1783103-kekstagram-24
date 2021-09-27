@@ -2,7 +2,7 @@ function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
 
-  if (min > max) { // здесь нужно это сравнение ? я пробовал без него, тоже работает
+  if (min > max) {
     const temp = min;
     min = max;
     max = temp;
