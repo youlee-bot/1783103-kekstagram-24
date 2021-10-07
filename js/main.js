@@ -1,20 +1,6 @@
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  if (min > max) {
-    const temp = min;
-    min = max;
-    max = temp;
-  }
-  return Math.abs(Math.floor(Math.random() * (max - min + 1)) + min);
-}
-
-function checkCommentLength(comment, MaxCommentLength) {
-  return comment.length < MaxCommentLength;
-}
+import {getRandomInt, checkCommentLength} from './utils/functions.js';
 
 checkCommentLength('some text for test', 10);
-
 
 const descriptionIds = [];
 for (let index = 1; index <= 25; index++) {
@@ -23,18 +9,18 @@ for (let index = 1; index <= 25; index++) {
 
 const commentIds = [];
 
-const NAMES = [
-  'Иван',
-  'Хуан Себастьян',
-  'Мария',
-  'Кристоф',
-  'Виктор',
-  'Юлия',
-  'Люпита',
-  'Вашингтон',
-];
+const GenerateComments = (ammount) => {
 
-const generateComments = (ammount) => {
+  const NAMES = [
+    'Иван',
+    'Хуан Себастьян',
+    'Мария',
+    'Кристоф',
+    'Виктор',
+    'Юлия',
+    'Люпита',
+    'Вашингтон',
+  ];
 
   const COMMMENTS = [
     'Всё отлично!',
@@ -80,7 +66,7 @@ const generateComments = (ammount) => {
 };
 
 
-const createDescription = () => {
+const CreateDescription = () => {
 
   const finalDescription = [];
 
@@ -90,13 +76,13 @@ const createDescription = () => {
       url: `photos/${  index  }.jpg`,
       description: 'simple photo',
       likes: getRandomInt(15, 200),
-      comments: generateComments(getRandomInt(1, 5)),
+      comments: GenerateComments(getRandomInt(1, 5)),
     });
   }
 
   return finalDescription;
 };
 
-createDescription();
+CreateDescription();
 
-//console.log(createDescription());
+//console.log(CreateDescription());
