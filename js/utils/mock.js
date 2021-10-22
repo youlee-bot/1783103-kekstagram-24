@@ -11,9 +11,6 @@ export const getRandomInt = (min, max) => {
   return Math.abs(Math.floor(Math.random() * (max - min + 1)) + min);
 };
 
-export const checkCommentLength = (comment, MaxCommentLength) => comment.length < MaxCommentLength;
-
-
 export const GenerateComments = (ammount) => {
 
   const commentIds = [];
@@ -72,7 +69,6 @@ export const GenerateComments = (ammount) => {
   return readyComments;
 };
 
-
 export const CreateDescription = () => {
 
   const descriptionIds = [];
@@ -95,3 +91,6 @@ export const CreateDescription = () => {
   return finalDescription;
 };
 
+export const checkCommentLength = (comment, commentLength) => comment.length < commentLength;
+
+export const isEscapeKey = (evt) => evt.key === 'Escape';
