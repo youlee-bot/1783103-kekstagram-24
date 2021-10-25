@@ -3,13 +3,13 @@ const showAllPictures = (photoContent) => {
   const allPictures = document.createDocumentFragment();
   const placeToInsert = document.querySelector('.pictures');
 
-  photoContent.forEach((element) => {
+  photoContent.forEach((element, index) => {
     const onePicTemplate = GetTemplate.cloneNode(true);
-
     const pic = onePicTemplate.querySelector('img');
     const comments = onePicTemplate.querySelector('.picture__comments');
     const likes = onePicTemplate.querySelector('.picture__likes');
 
+    pic.setAttribute('id', index); // индексы массива обьектов, для открытия полноразмерного изображения
     pic.src = element.url;
     pic.alt = element.description;
     comments.textContent = element.comments.length;

@@ -69,7 +69,7 @@ export const GenerateComments = (ammount) => {
   return readyComments;
 };
 
-export const CreateDescription = () => {
+const CreateDescription = () => {
 
   const descriptionIds = [];
   const finalDescription = [];
@@ -91,6 +91,7 @@ export const CreateDescription = () => {
   return finalDescription;
 };
 
-export const checkCommentLength = (comment, commentLength) => comment.length < commentLength;
+const contentDataArray = (CreateDescription().slice());
+export {contentDataArray};
 
-export const isEscapeKey = (evt) => evt.key === 'Escape';
+export const checkCommentLength = (comment, commentLength) => comment.length < commentLength;
