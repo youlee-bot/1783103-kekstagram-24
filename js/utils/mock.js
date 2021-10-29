@@ -84,7 +84,7 @@ const CreateDescription = () => {
       url: `photos/${  index  }.jpg`,
       description: 'simple photo',
       likes: getRandomInt(15, 200),
-      comments: GenerateComments(getRandomInt(1, 5)),
+      comments: GenerateComments(getRandomInt(5, 25)),
     });
   }
 
