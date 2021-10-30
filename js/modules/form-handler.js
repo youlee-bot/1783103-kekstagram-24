@@ -1,3 +1,5 @@
+import './photo-effects.js';
+
 const imageForm = document.querySelector('#upload-select-image');
 const formModal = document.querySelector('.img-upload__overlay');
 const formModalClose = document.querySelector('.img-upload__cancel');
@@ -79,6 +81,5 @@ imageForm.addEventListener('submit', formSubmitHandler);
 
 /*
         теги для проверки:
-
         #Хэш #хэш #ХэшТег #хэштег  #Temps #temps #234 $234 #2344
         */
