@@ -18,6 +18,7 @@ const showAllPictures = (photoContent) => {
   });
 
   placeToInsert.append(allPictures);
+  return photoContent;
 };
 
 export {showAllPictures};

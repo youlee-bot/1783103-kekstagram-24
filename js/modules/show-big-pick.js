@@ -1,4 +1,4 @@
-import {contentDataArray} from '../utils/mock.js';
+import {contentDataArray} from './api.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
 const bigPictureSectionClose = document.querySelector('.big-picture__cancel');
