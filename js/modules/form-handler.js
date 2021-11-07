@@ -1,4 +1,8 @@
 import './photo-effects.js';
+import { checkCommentLength } from '../utils/mock.js';
+import { sendData } from './api.js';
+import { showMessage } from './errors.js';
+import  { isEscapeKey } from '../utils/utils.js';
 
 const imageForm = document.querySelector('#upload-select-image');
 const formModal = document.querySelector('.img-upload__overlay');
@@ -7,11 +11,11 @@ const formFileInput = document.querySelector('.img-upload__input');
 const formHashtagInput = document.querySelector('.text__hashtags');
 const formCommentInput = document.querySelector('.text__description');
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
 const closeModal = (modalContent) => {
   modalContent.classList.add('hidden');
   formFileInput.value = '';
+  formCommentInput.value = '';
+  formHashtagInput.value = '';
 };
 
 const pressEscHandler = (evt) => {
@@ -71,15 +75,75 @@ const formFileInputHandler = () => {
 
 formFileInput.addEventListener('change', formFileInputHandler);
 
+
 const formSubmitHandler = (evt) => {
   evt.preventDefault(evt);
-  const hashTags = formHashtagInput.value.split(' ');
-  formHashtagInput.value = filterHashtags(getUniqueHashTags(hashTags)).join(' ');
+
+  const errorCounter = {};
+  const hideRedFrame = (element) => {
+    element.setAttribute('style', 'border:none;');
+    errorCounter[element.className] = 'ok';
+  };
+
+  const showRedFrame = (element) => {
+    element.setAttribute('style', 'border:3px solid red;');
+    errorCounter[element.className] = 'error';
+  };
+
+  const CheckformData = new Promise((resolve, reject) => {
+    const hashTags = formHashtagInput.value.split(' ');
+    const filteredHashTags = filterHashtags(getUniqueHashTags(hashTags));
+
+    if (hashTags.length === filteredHashTags.length) {
+      resolve(formHashtagInput);
+    } else {
+      reject(formHashtagInput);
+    }
+  });
+
+  CheckformData.then(hideRedFrame, showRedFrame)
+    .then(() => new Promise((resolve, reject) => {
+      if (checkCommentLength(formCommentInput.value, 141)) {
+        resolve(formCommentInput);
+      } else {
+        reject(formCommentInput);
+      }
+    } ))
+    .then(hideRedFrame, showRedFrame)
+    .then(() => {
+      const formData = new FormData(evt.target);
+
+
+      if (!Object.values(errorCounter)
+        .includes('error')) {
+
+        sendData(() => {
+          closeModal(formModal);
+          showMessage('success');
+        },
+        () => {
+          closeModal(formModal);
+          showMessage('error');
+        },
+        formData,
+        );
+      }
+    })
+    .then(() => {
+      // тест для просмотра форм даты
+      // formData.set('filename', filetoupload.files[0].name);
+      // for (const pair of formData.entries()) {
+      //   console.log(`${ pair[0] }, ${  JSON.stringify(pair[1])}`);
+      //}
+    })
+    .catch(() => {
+      //console.log(errorCounter);
+    });
 };
 
 imageForm.addEventListener('submit', formSubmitHandler);
 
 /*
         теги для проверки:
-        #Хэш #хэш #ХэшТег #хэштег  #Temps #temps #234 $234 #2344
+#Хэшй #хэшaц #ХэшТегу #хэштеy
         */

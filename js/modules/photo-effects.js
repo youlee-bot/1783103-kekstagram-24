@@ -1,5 +1,5 @@
-document.querySelector('.img-upload__overlay').classList.remove('hidden');
-// temporary
+//document.querySelector('.img-upload__overlay').classList.remove('hidden');
+
 
 const scaleFieldset = document.querySelector('.img-upload__scale');
 const targetImageDiv = document.querySelector('.img-upload__preview');
@@ -126,11 +126,12 @@ const clickOnEffects = (evt) => {
     imgStyleSettings.filter = `filter: ${  filterSettings[evt.target.value].style  }(${  values[handle]  }${filterSettings[evt.target.value].counter })`;
     if (evt.target.value === 'none') {
       imgStyleSettings.filter = 'display: block';
+      sliderElement.setAttribute('style', 'display:none');
     } else {
       sliderElement.setAttribute('style', '');
     }
     setImageStyle();
-    filterField.setAttribute('value', imgStyleSettings.filter);
+    filterField.setAttribute('value', values[handle]);
     //console.log(values[handle]);
   };
 
