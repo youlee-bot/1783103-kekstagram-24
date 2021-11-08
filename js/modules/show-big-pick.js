@@ -1,4 +1,5 @@
 import {contentDataArray} from './api.js';
+import { isEscapeKey } from '../utils/utils.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
 const bigPictureSectionClose = document.querySelector('.big-picture__cancel');
@@ -20,8 +21,6 @@ const showComments = (id) => {
 
   return allComents;
 };
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const openBigPicture = (evt) => {
   let allComments = [];
@@ -55,8 +54,10 @@ const openBigPicture = (evt) => {
     openModal(bigPictureSection, bigPictureSectionClose);
     document.querySelector('body').classList.add('modal-open');
     bigPictureImg.querySelector('img').src = evt.target.src;
+    bigPictureSection.querySelector('.social__caption').textContent = evt.target.alt;
     bigPictureSection.querySelector('.likes-count').textContent = parentTag.querySelector('.picture__likes').textContent;
     bigPictureSection.querySelector('.comments-count').textContent = parentTag.querySelector('.picture__comments').textContent;
+
 
     allComments = (showComments(evt.target.getAttribute('id'))).slice();
 
