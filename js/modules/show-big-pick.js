@@ -82,7 +82,6 @@ const openBigPicture = (evt) => {
         }
       }
     };
-
     bigPictureSection.querySelector('.social__comments-loader').addEventListener('click', showMoreComments);
   }
 };
