@@ -22,7 +22,7 @@ export const filterElements = (contentArray) => {
     }
   };
 
-  const filterFormClick = (evt) => {
+  const filterClickHandler = (evt) => {
     for (let i = 0; i < filterForm.children.length; i++) {
       filterForm.children[i].setAttribute('class', 'img-filters__button');
     }
@@ -65,5 +65,5 @@ export const filterElements = (contentArray) => {
   };
 
 
-  filterForm.addEventListener ('click', debounce(filterFormClick, 300));
+  filterForm.addEventListener ('click', debounce(filterClickHandler, 300));
 };

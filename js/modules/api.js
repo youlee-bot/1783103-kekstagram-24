@@ -9,8 +9,8 @@ export const getData = (onSuccess, onError) => {
       contentDataArray = data;
       onSuccess();
     })
-    .catch((err) => {
-      onError(err);
+    .catch(() => {
+      onError('Ошибка загрузки');
     });
 };
 

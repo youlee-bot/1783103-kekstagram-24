@@ -1,6 +1,3 @@
-//document.querySelector('.img-upload__overlay').classList.remove('hidden');
-
-
 const scaleFieldset = document.querySelector('.img-upload__scale');
 const targetImageDiv = document.querySelector('.img-upload__preview');
 const targetImage = targetImageDiv.querySelector('img');
@@ -101,38 +98,38 @@ const setImageStyle = () => {
 };
 setImageStyle();
 
-const clickOnScale = (evt) => {
+const scaleClickHandler = (evt) => {
   if (evt.target.classList.contains('scale__control--bigger')) {
     scaleFieldNumber += 25;
     if (scaleFieldNumber > 100) {
       scaleFieldNumber = 100;
     }
-    scaleField.value = `${scaleFieldNumber  }%`;
+    scaleField.value = `${ scaleFieldNumber  }%`;
   }
   if (evt.target.classList.contains('scale__control--smaller')) {
     scaleFieldNumber -= 25;
-    if (scaleFieldNumber < 0) {
-      scaleFieldNumber = 0;
+    if (scaleFieldNumber < 25) {
+      scaleFieldNumber = 25;
     }
-    scaleField.value = `${scaleFieldNumber  }%`;
+    scaleField.value = `${ scaleFieldNumber  }%`;
   }
   imgStyleSettings.size = changeScale(scaleFieldNumber);
   setImageStyle();
 };
 
 
-const clickOnEffects = (evt) => {
+const effectsClickHandler = (evt) => {
   const updateRangebar = (values, handle) => {
     imgStyleSettings.filter = `filter: ${  filterSettings[evt.target.value].style  }(${  values[handle]  }${filterSettings[evt.target.value].counter })`;
     if (evt.target.value === 'none') {
       imgStyleSettings.filter = 'display: block';
-      sliderElement.setAttribute('style', 'display:none');
+      sliderElement.closest('fieldset').setAttribute('style', 'display:none');
     } else {
-      sliderElement.setAttribute('style', '');
+      sliderElement.closest('fieldset').setAttribute('style', '');
     }
     setImageStyle();
     filterField.setAttribute('value', values[handle]);
-    //console.log(values[handle]);
+
   };
 
   if (evt.target.value) {
@@ -140,14 +137,14 @@ const clickOnEffects = (evt) => {
 
     sliderElement.noUiSlider.on('update', updateRangebar);
   }
-  // effect-none effect-chrome effect-sepia effect-marvin effect-phobos effect-heat
+
 };
 
 if (imgStyleSettings.filter==='') {
-  sliderElement.setAttribute('style', 'display:none;');
+  sliderElement.closest('fieldset').setAttribute('style', 'display:none;');
 }
 
-listOfEffects.addEventListener('click', clickOnEffects);
-scaleFieldset.addEventListener('click', clickOnScale);
+listOfEffects.addEventListener('click', effectsClickHandler);
+scaleFieldset.addEventListener('click', scaleClickHandler);
 
 

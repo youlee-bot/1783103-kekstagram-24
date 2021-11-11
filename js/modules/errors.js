@@ -2,43 +2,33 @@
 import  { isEscapeKey } from '../utils/utils.js';
 
 export const showMessage = (content) => {
-  const Message = document.querySelector(`#${  content}`).cloneNode(true);
-  const Messagebody = Message.content;
-  document.body.appendChild(Messagebody);
-  const MessageWindow = document.querySelector(`.${  content}`);
+  const message = document.querySelector(`#${  content}`).cloneNode(true);
+  const messagebody = message.content;
+  document.body.appendChild(messagebody);
+  const messageWindow = document.querySelector(`.${  content}`);
 
-  const MessageClose = (evt) => {
+  const messageCloseHandler = (evt) => {
     if ((evt.target.className === content)||(evt.target.className === `${content  }__button`)) {
-      document.body.removeChild(MessageWindow);
+      document.body.removeChild(messageWindow);
     }
   };
 
   const pressEscHandler = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      MessageWindow.removeEventListener('keydown', pressEscHandler);
-      document.body.removeChild(MessageWindow);
+      messageWindow.removeEventListener('keydown', pressEscHandler);
+      document.body.removeChild(messageWindow);
     }
   };
 
-  MessageWindow.addEventListener('click', MessageClose);
+  messageWindow.addEventListener('click', messageCloseHandler);
   document.addEventListener('keydown', pressEscHandler);
 
 };
 
 export const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-
+  alertContainer.setAttribute('style', 'z-index: 100; position: absolute; left: 0px; top: 0px; right: 0px; padding: 10px 3px; font-size: 30px; text-align: center; background-color: red;');
   alertContainer.textContent = message;
-
   document.body.append(alertContainer);
 };
