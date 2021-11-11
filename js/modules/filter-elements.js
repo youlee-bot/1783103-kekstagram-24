@@ -37,6 +37,7 @@ export const filterElements = (contentArray) => {
       clearElements();
       if (contentArray.length >= 10) {
         const unqueArrayElements = [];
+
         while (unqueArrayElements.length <=10)
         {
           const randomElement = getRandomInt(0,contentArray.length-1);
