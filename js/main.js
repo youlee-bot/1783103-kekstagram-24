@@ -9,5 +9,3 @@ getData(() => {
   filterElements(contentDataArray);
   document.querySelector('#filter-default').click();
 }, showAlert);
-
-// сделать фильтры вывода фотографий

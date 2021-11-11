@@ -6,12 +6,12 @@ export const filterElements = (contentArray) => {
   const filterForm = document.querySelector('.img-filters__form');
   filterBlock.classList.remove('img-filters--inactive');
 
-  const debounce = (functionToSlowUp, timeToSlowup) => {
-    let timeout;
-    return function () {
-      const functionCall = () => { functionToSlowUp.apply(this, arguments); };
-      clearTimeout(timeout);
-      timeout = setTimeout(functionCall, timeToSlowup);
+  const debounce = (callback, timeoutDelay = 500) => {
+    let timeoutId;
+
+    return (...rest) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
     };
   };
 

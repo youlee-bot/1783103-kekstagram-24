@@ -41,6 +41,14 @@ const bigPictureClickHandler = (evt) => {
     allComments = [];
   };
 
+  const pressEscHandler = (event) => {
+    if (isEscapeKey(event)) {
+      event.preventDefault();
+      document.removeEventListener('keydown', pressEscHandler);
+      closeModal(bigPictureSection);
+    }
+  };
+
   const openModal = (modalContent, closeButton) => {
     modalContent.classList.remove('hidden');
     document.addEventListener('keydown', pressEscHandler);
@@ -49,13 +57,6 @@ const bigPictureClickHandler = (evt) => {
     });
   };
 
-  const pressEscHandler = (event) => {
-    if (isEscapeKey(event)) {
-      event.preventDefault();
-      document.removeEventListener('keydown', pressEscHandler);
-      closeModal(bigPictureSection);
-    }
-  };
 
   const parentTag = evt.target.closest('a');
 

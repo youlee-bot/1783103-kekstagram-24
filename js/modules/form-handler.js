@@ -11,19 +11,22 @@ const formFileInput = document.querySelector('.img-upload__input');
 const formHashtagInput = document.querySelector('.text__hashtags');
 const formCommentInput = document.querySelector('.text__description');
 
-const closeModal = (modalContent) => {
-  modalContent.classList.add('hidden');
-};
-
 const clearForm = () => {
   const scaleControl = document.querySelector('.scale__control--value');
   formFileInput.value = '';
   formCommentInput.value = '';
   formHashtagInput.value = '';
   scaleControl.value = '100%';
+  formHashtagInput.setAttribute('style', 'border:none;');
+  formCommentInput.setAttribute('style', 'border:none;');
   const targetImageDiv = document.querySelector('.img-upload__preview');
   const targetImage = targetImageDiv.querySelector('img');
   targetImage.setAttribute('style', 'transform: scale(1);');
+};
+
+const closeModal = (modalContent) => {
+  modalContent.classList.add('hidden');
+  clearForm();
 };
 
 const pressEscHandler = (evt) => {
@@ -136,9 +139,6 @@ const formSubmitHandler = (evt) => {
         formData,
         );
       }
-    })
-    .then(() => {
-      clearForm();
     })
     .catch(() => {
       showMessage('Неизвестная ошибка');
