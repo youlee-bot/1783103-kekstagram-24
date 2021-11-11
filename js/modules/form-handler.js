@@ -13,9 +13,17 @@ const formCommentInput = document.querySelector('.text__description');
 
 const closeModal = (modalContent) => {
   modalContent.classList.add('hidden');
+};
+
+const clearForm = () => {
+  const scaleControl = document.querySelector('.scale__control--value');
   formFileInput.value = '';
   formCommentInput.value = '';
   formHashtagInput.value = '';
+  scaleControl.value = '100%';
+  const targetImageDiv = document.querySelector('.img-upload__preview');
+  const targetImage = targetImageDiv.querySelector('img');
+  targetImage.setAttribute('style', 'transform: scale(1);');
 };
 
 const pressEscHandler = (evt) => {
@@ -38,13 +46,13 @@ const openModal = (modalContent, closeButton) => {
 
 const getUniqueHashTags = (hashTagsArray) => {
   if (hashTagsArray.length > 0) {
-    const HashTagsMap = [];
+    const hashTagsMap = [];
     const hashTagsUnique = [];
 
     hashTagsArray.map((element) => {
-      if (!HashTagsMap.includes(element.toLowerCase())) {
+      if (!hashTagsMap.includes(element.toLowerCase())) {
         hashTagsUnique.push(element);
-        HashTagsMap.push(element.toLowerCase());
+        hashTagsMap.push(element.toLowerCase());
       }
     });
     return hashTagsUnique;
@@ -65,7 +73,7 @@ const filterHashtags = (hashTagsArray) => {
   }
 };
 
-const formFileInputHandler = () => {
+const formModalChangeHandler = () => {
   const imageToUpload = formFileInput.files[0];
 
   if (imageToUpload.type.match('image*')) {
@@ -73,7 +81,7 @@ const formFileInputHandler = () => {
   }
 };
 
-formFileInput.addEventListener('change', formFileInputHandler);
+formFileInput.addEventListener('change', formModalChangeHandler);
 
 
 const formSubmitHandler = (evt) => {
@@ -90,18 +98,18 @@ const formSubmitHandler = (evt) => {
     errorCounter[element.className] = 'error';
   };
 
-  const CheckformData = new Promise((resolve, reject) => {
+  const checkformData = new Promise((resolve, reject) => {
     const hashTags = formHashtagInput.value.split(' ');
     const filteredHashTags = filterHashtags(getUniqueHashTags(hashTags));
 
-    if (hashTags.length === filteredHashTags.length) {
+    if ((hashTags.length === filteredHashTags.length)||(formHashtagInput.value === '')) {
       resolve(formHashtagInput);
     } else {
       reject(formHashtagInput);
     }
   });
 
-  CheckformData.then(hideRedFrame, showRedFrame)
+  checkformData.then(hideRedFrame, showRedFrame)
     .then(() => new Promise((resolve, reject) => {
       if (checkCommentLength(formCommentInput.value, 141)) {
         resolve(formCommentInput);
@@ -130,14 +138,10 @@ const formSubmitHandler = (evt) => {
       }
     })
     .then(() => {
-      // тест для просмотра форм даты
-      // formData.set('filename', filetoupload.files[0].name);
-      // for (const pair of formData.entries()) {
-      //   console.log(`${ pair[0] }, ${  JSON.stringify(pair[1])}`);
-      //}
+      clearForm();
     })
     .catch(() => {
-      //console.log(errorCounter);
+      showMessage('Неизвестная ошибка');
     });
 };
 

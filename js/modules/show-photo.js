@@ -10,8 +10,8 @@ const showAllPictures = (photoContent) => {
     const likes = onePicTemplate.querySelector('.picture__likes');
 
     pic.setAttribute('id', index); // индексы массива обьектов, для открытия полноразмерного изображения
-    pic.src = element.url;
-    pic.alt = element.description;
+    pic.setAttribute('src', element.url);
+    pic.setAttribute('alt', element.description);
     comments.textContent = element.comments.length;
     likes.textContent = element.likes;
     allPictures.append(onePicTemplate);
