@@ -97,6 +97,8 @@ const imgStyleSettings = {
   filter: '',
 };
 
+imgStyleSettings.size = changeScale(setScaleFieldNumber());
+
 const setImageStyle = () => {
   targetImage.setAttribute('style', `${imgStyleSettings.size  };${  imgStyleSettings.filter}`);
 };
