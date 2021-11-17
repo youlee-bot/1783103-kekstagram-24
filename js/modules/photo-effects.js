@@ -2,7 +2,6 @@ const scaleFieldset = document.querySelector('.img-upload__scale');
 const targetImageDiv = document.querySelector('.img-upload__preview');
 const targetImage = targetImageDiv.querySelector('img');
 const scaleField = document.querySelector('.scale__control--value');
-let scaleFieldNumber = parseInt(scaleField.value.slice(0, -1), 10);
 const listOfEffects = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const filterField = document.querySelector('.effect-level__value');
@@ -70,7 +69,7 @@ const filterSettings = {
   heat: {
     rangeSettings: {
       range: {
-        min: 0,
+        min: 1,
         max: 3,
       },
       start: 3,
@@ -80,6 +79,11 @@ const filterSettings = {
     counter: '',
   },
 };
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const STEP_SCALE = 25;
+
+const setScaleFieldNumber = () => parseInt(scaleField.value.slice(0, -1), 10);
 
 noUiSlider.create(sliderElement, filterSettings.none.rangeSettings);
 
@@ -89,27 +93,28 @@ const changeScale = (value) => {
 };
 
 const imgStyleSettings = {
-  size: changeScale(scaleFieldNumber),
+  size: changeScale(setScaleFieldNumber()),
   filter: '',
 };
 
 const setImageStyle = () => {
   targetImage.setAttribute('style', `${imgStyleSettings.size  };${  imgStyleSettings.filter}`);
 };
-setImageStyle();
+
 
 const scaleClickHandler = (evt) => {
+  let scaleFieldNumber = setScaleFieldNumber();
   if (evt.target.classList.contains('scale__control--bigger')) {
-    scaleFieldNumber += 25;
-    if (scaleFieldNumber > 100) {
-      scaleFieldNumber = 100;
+    scaleFieldNumber += STEP_SCALE;
+    if (scaleFieldNumber > MAX_SCALE) {
+      scaleFieldNumber = MAX_SCALE;
     }
     scaleField.value = `${ scaleFieldNumber  }%`;
   }
   if (evt.target.classList.contains('scale__control--smaller')) {
-    scaleFieldNumber -= 25;
-    if (scaleFieldNumber < 25) {
-      scaleFieldNumber = 25;
+    scaleFieldNumber -= STEP_SCALE;
+    if (scaleFieldNumber < MIN_SCALE) {
+      scaleFieldNumber = MIN_SCALE;
     }
     scaleField.value = `${ scaleFieldNumber  }%`;
   }
@@ -129,7 +134,6 @@ const effectsClickHandler = (evt) => {
     }
     setImageStyle();
     filterField.setAttribute('value', values[handle]);
-
   };
 
   if (evt.target.value) {

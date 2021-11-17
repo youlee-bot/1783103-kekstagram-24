@@ -3,6 +3,7 @@ import { checkCommentLength } from '../utils/mock.js';
 import { sendData } from './api.js';
 import { showMessage } from './errors.js';
 import  { isEscapeKey } from '../utils/utils.js';
+import { debounce } from '../utils/utils.js';
 
 const imageForm = document.querySelector('#upload-select-image');
 const formModal = document.querySelector('.img-upload__overlay');
@@ -10,6 +11,7 @@ const formModalClose = document.querySelector('.img-upload__cancel');
 const formFileInput = document.querySelector('.img-upload__input');
 const formHashtagInput = document.querySelector('.text__hashtags');
 const formCommentInput = document.querySelector('.text__description');
+const uploadFileform = document.querySelector('.img-upload__form');
 
 const clearForm = () => {
   const scaleControl = document.querySelector('.scale__control--value');
@@ -22,29 +24,6 @@ const clearForm = () => {
   const targetImageDiv = document.querySelector('.img-upload__preview');
   const targetImage = targetImageDiv.querySelector('img');
   targetImage.setAttribute('style', 'transform: scale(1);');
-};
-
-const closeModal = (modalContent) => {
-  modalContent.classList.add('hidden');
-  clearForm();
-};
-
-const pressEscHandler = (evt) => {
-  if ((formHashtagInput !== document.activeElement) && (formCommentInput !== document.activeElement)) {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      document.removeEventListener('keydown', pressEscHandler);
-      closeModal(formModal);
-    }
-  }
-};
-
-const openModal = (modalContent, closeButton) => {
-  modalContent.classList.remove('hidden');
-  document.addEventListener('keydown', pressEscHandler);
-  closeButton.addEventListener('click', () => {
-    closeModal(formModal);
-  });
 };
 
 const getUniqueHashTags = (hashTagsArray) => {
@@ -74,6 +53,44 @@ const filterHashtags = (hashTagsArray) => {
     });
     return filteredHashtagsArray;
   }
+};
+
+const hashtagInputChangeHandler = () => {
+
+  const hashTags = formHashtagInput.value.split(' ');
+  const filteredHashTags = filterHashtags(getUniqueHashTags(hashTags));
+
+  if ((hashTags.length === filteredHashTags.length)||(formHashtagInput.value === '')) {
+    formHashtagInput.setCustomValidity('');
+  } else {
+    formHashtagInput.setCustomValidity('Неправильный формат хэш-тега');
+    uploadFileform.reportValidity();
+  }
+
+};
+
+const closeModal = (modalContent) => {
+  modalContent.classList.add('hidden');
+  formHashtagInput.removeEventListener('update', debounce(hashtagInputChangeHandler));
+  clearForm();
+};
+
+const pressEscHandler = (evt) => {
+  if ((formHashtagInput !== document.activeElement) && (formCommentInput !== document.activeElement)) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      document.removeEventListener('keydown', pressEscHandler);
+      closeModal(formModal);
+    }
+  }
+};
+
+const openModal = (modalContent, closeButton) => {
+  modalContent.classList.remove('hidden');
+  document.addEventListener('keydown', pressEscHandler);
+  closeButton.addEventListener('click', () => {
+    closeModal(formModal);
+  });
 };
 
 const formModalChangeHandler = () => {
@@ -146,8 +163,4 @@ const formSubmitHandler = (evt) => {
 };
 
 imageForm.addEventListener('submit', formSubmitHandler);
-
-/*
-        теги для проверки:
-#Хэшй #хэшaц #ХэшТегу #хэштеy
-        */
+formHashtagInput.addEventListener('input', debounce(hashtagInputChangeHandler));

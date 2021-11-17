@@ -69,7 +69,7 @@ const bigPictureClickHandler = (evt) => {
     bigPictureSection.querySelector('.likes-count').textContent = parentTag.querySelector('.picture__likes').textContent;
     totalComments.textContent = parentTag.querySelector('.picture__comments').textContent;
 
-
+    allComments = '';
     allComments = (showComments(evt.target.getAttribute('id'))).slice();
 
     const commentsCounter = () => {

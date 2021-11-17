@@ -26,7 +26,6 @@ export const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        //console.log(response.json());
         throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
       }
     })
